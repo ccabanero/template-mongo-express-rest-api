@@ -17,35 +17,49 @@ This is a template repository for starting a new RESTful API using GitHub's ['Cr
 ## Features
 
 * After clonging this repo, environments can be configured to connect to either a local or remote MongoDB instance.
-* Auth middleware is implemented to support authenticating REST endpoints.
-* A user resource is implemented and supports the following general requirements:
+* Auth middleware is implemented to support requiring authentication when making API requests.
+* A user resource is implemented and supports the following general requirements below.  
 
 |  HTTP Verb | Resource  | General Description  |     
 |---|---|---|
 |  POST | /user  | Registers a new user.  |   
 |  POST | /user/login  |  Logs in a user, returns a JWT on success.  A user can create a collection of tokens for multi-device support. |      
-|  POST | /user/logout |  Logs out the user. | 
-|  POST | /user/logoutAll | Logs out user from all devices. |
-|  GET  | /user/me | Returns information about the authenticated user. |
-|  PATCH| /user/me | Updates information for the authenticated user. |
-|  DELETE | /user/me | Deletes the authenticated user. |    
+|  POST | /user/logout |  Logs out the user. The token is cleared. Requires authorization header (i.e. Bearer token).| 
+|  POST | /user/logoutAll | Logs out user from all devices. All tokens are cleared. Requires authorization header (i.e. Bearer token).|
+|  GET  | /user/me | Returns information about the authenticated user. Requires authorization header (i.e. Bearer token).|
+|  PATCH| /user/me | Updates information for the authenticated user. Requires authorization header (i.e. Bearer token).|
+|  DELETE | /user/me | Deletes the authenticated user. Requires authorization header (i.e. Bearer token).|    
 
 * Testing libraries/utilities are configured to support unit and integration tests. Test coverage is implemented for the /user endpoints.
 * Ability to add project-specific REST enspoints for your project.
 
 
 ## Using this Template
+  
+__Step 1__. On this repo page, choose __Use this template__.
 
-1. Stand up a MongoDB database.  
-2. If you are running a local/dev MongoDB then run it via Terminal. For example, based on how I installed MongoDB for local development, I run it with:
+  * Enter new repository name.
+  * Enter description.
+  * Declare Public or Private
+  * Choose __Create repository from template__.
+  * Clone the new repository created using the template.
+  * Install dependencies with:
+
+````
+npm install
+````
+
+__Step 2__. Stand up a MongoDB database.
+
+* If you are running a local/dev MongoDB then run it via Terminal. For example, based on how I installed MongoDB for local development, I run it with:
 
 ````
 /Users/clintcabanero/mongodb/bin/mongod --dbpath=/Users/clintcabanero/mongodb-data
 ````
 
-3. Add .env files to the node app.  At the root of the Node app, add the following:
+__Step 3__. Open the project in VS Code. Add .env files to the root of the Node app in a 'config' directory for connecting to your MongoDB.
 
-config.dev.env
+/config/dev.env
 
 ````
 PORT=3001
@@ -54,7 +68,7 @@ WEB_APP_ORIGIN=http://localhost:3000
 JWT_SECRET=enteryoursecrethere
 ````
 
-config.test.env
+/config/test.env
 
 ````
 PORT=3001
@@ -63,13 +77,12 @@ WEB_APP_ORIGIN=http://localhost:3000
 JWT_SECRET=enteryoursecrethere
 ````
 
-Run Dev
+__Step 4__. Run the app.
 
 ````
 npm run dev
 ````
-
-Run Tests
+__Step 5__. Run the unit and integration tests.
 
 ````
 npm run test
